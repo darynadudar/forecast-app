@@ -1,30 +1,76 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <main class="forecast">
+    <div class="container">
+      <div class="flex">
+        <div>
+          <p>{{ ipData.city }}</p>
+          <div class="forecast__current-weather">
+          </div>
+        </div>
+        <aside>
+<!--          <dailyForecast />-->
+        </aside>
+      </div>
+    </div>
+  </main>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script>
+import Axios from "axios";
+
+import currentWeather from "./components/currentWeather/currentWeather.vue";
+
+export default {
+  name: 'App',
+  components: {
+    currentWeather,
+  },
+  data() {
+    return {
+      ipData: {
+        default: {},
+      }
+    }
+  },
+
+  created() {
+    this.getIpData();
+  },
+
+  methods: {
+    getIpData() {
+      Axios.get(`https://api.weatherapi.com/v1/ip.json?key=a32967cbc7c04d1d982213031223012&q=auto:ip`)
+          .then(response => {
+            this.ipData = response.data;
+          })
+    },
+  },
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+</script>
+
+<style lang="scss">
+@import './styles/style.scss';
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.forecast {
+  background-color: #F2DAC4;
+  //background-color: #BF4E24;
+  height: 100vh;
+
+  &__current-weather {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .flex {
+    display: flex;
+  }
 }
+
 </style>
