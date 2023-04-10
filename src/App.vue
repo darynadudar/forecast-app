@@ -5,7 +5,18 @@
         <div>
           <p>{{ weatherStore.ipData.city }}</p>
           <div class="forecast__current-weather">
+            <CurrentWeather
+                v-if="forecastData"
+                :currentWeather="forecastData.current"
+                :todayForecast="todayForecastData"
+                :location="forecastData.location"
+            />
           </div>
+          <HourlyForecast
+              v-if="forecastData"
+              :hourlyWeather="hourlyForecastData"
+              :location="forecastData.location"
+          />
         </div>
         <aside>
 <!--          <dailyForecast />-->
@@ -18,12 +29,14 @@
 <script>
 import { useWeatherStore } from './stores/weatherStore';
 
-import currentWeather from "./components/currentWeather/currentWeather.vue";
+import CurrentWeather from "./components/currentWeather/currentWeather.vue";
+import HourlyForecast from "./components/hourlyForecast/hourlyForecast.vue";
 
 export default {
   name: 'App',
   components: {
-    currentWeather,
+    HourlyForecast,
+    CurrentWeather,
   },
   setup() {
     const weatherStore = useWeatherStore();
@@ -40,6 +53,18 @@ export default {
   },
   created() {
     this.weatherStore.getIpData();
+    this.weatherStore.getForecastData();
+  },
+  computed: {
+    forecastData() {
+      return this.weatherStore.forecastData;
+    },
+    todayForecastData() {
+      return this.weatherStore.todayForecastData;
+    },
+    hourlyForecastData() {
+      return this.weatherStore.hourlyForecastData;
+    },
   },
 }
 
