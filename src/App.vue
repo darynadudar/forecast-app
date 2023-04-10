@@ -3,7 +3,7 @@
     <div class="container">
       <div class="flex">
         <div>
-          <p>{{ ipData.city }}</p>
+          <p>{{ weatherStore.ipData.city }}</p>
           <div class="forecast__current-weather">
           </div>
         </div>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Axios from "axios";
+import { useWeatherStore } from './stores/weatherStore';
 
 import currentWeather from "./components/currentWeather/currentWeather.vue";
 
@@ -25,25 +25,21 @@ export default {
   components: {
     currentWeather,
   },
-  data() {
+  setup() {
+    const weatherStore = useWeatherStore();
+
     return {
-      ipData: {
-        default: {},
-      }
+      weatherStore
     }
   },
 
-  created() {
-    this.getIpData();
-  },
+  data() {
+    return {
 
-  methods: {
-    getIpData() {
-      Axios.get(`https://api.weatherapi.com/v1/ip.json?key=a32967cbc7c04d1d982213031223012&q=auto:ip`)
-          .then(response => {
-            this.ipData = response.data;
-          })
-    },
+    }
+  },
+  created() {
+    this.weatherStore.getIpData();
   },
 }
 
