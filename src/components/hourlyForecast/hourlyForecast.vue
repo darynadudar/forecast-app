@@ -23,12 +23,14 @@
 export default {
   name: "hourlyForecast",
   props: {
-    hourlyWeather: null,
+    hourlyWeather: {
+      default: [],
+    },
     location: null,
   },
   computed: {
     hourlyForecastFiltered() {
-      return this.hourlyWeather.filter((item, index) => !(index % 3));
+      return this.hourlyWeather.length ? this.hourlyWeather.filter((item, index) => !(index % 3)) : [];
     }
   }
 }

@@ -19,7 +19,7 @@
           />
         </div>
         <aside>
-<!--          <dailyForecast />-->
+          <DailyForecast />
         </aside>
       </div>
     </div>
@@ -31,10 +31,12 @@ import { useWeatherStore } from './stores/weatherStore';
 
 import CurrentWeather from "./components/currentWeather/currentWeather.vue";
 import HourlyForecast from "./components/hourlyForecast/hourlyForecast.vue";
+import DailyForecast from "./components/dailyForecast/dailyForecast.vue";
 
 export default {
   name: 'App',
   components: {
+    DailyForecast,
     HourlyForecast,
     CurrentWeather,
   },
